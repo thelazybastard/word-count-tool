@@ -34,7 +34,7 @@ void hasFile(std::string filename, char command) {
     if (!file.is_open())
         std::exit(1);
 
-    int tracker{};
+    long tracker{};
 
     std::string line{};
     char character{};
@@ -62,10 +62,70 @@ void hasFile(std::string filename, char command) {
         }
         break;
     default:
+        while (file.get(character)) {
+            ++tracker;
+        }
+        tracker = 0;
+        std::cout << tracker;
+        while (std::getline(file, line)) {
+            ++tracker;
+        }
+        tracker = 0;
+        std::cout << tracker;
+        while (file >> word) {
+            ++tracker;
+        };
+        std::cout << tracker << filename << "\n";
+        std::exit(0);
         break;
     }
 
     std::cout << tracker << " " << filename << "\n";
 }
 
-void hasNoFile(char command) { std::cout << command; }
+void hasNoFile(char command) {
+    long tracker;
+
+    std::string line;
+    std::string word;
+
+    switch (command) {
+    case 'c':
+        while (std::getchar()) {
+            ++tracker;
+        }
+        break;
+    case 'l':
+        while (std::getline(std::cin, line)) {
+            ++tracker;
+        }
+        break;
+    case 'w':
+        while (std::cin >> word) {
+            ++tracker;
+        };
+        break;
+    case 'm':
+        while (std::getchar()) {
+            ++tracker;
+        }
+        break;
+    default:
+        while (std::getchar()) {
+            ++tracker;
+        }
+        std::cout << tracker;
+        tracker = 0;
+        while (std::getline(std::cin, line)) {
+            ++tracker;
+        }
+        std::cout << tracker;
+        tracker = 0;
+        while (std::cin >> word) {
+            ++tracker;
+        };
+        std::cout << tracker << "\n";
+        std::exit(0);
+        break;
+    }
+}
