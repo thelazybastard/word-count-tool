@@ -29,7 +29,8 @@ bool checkForWord([[maybe_unused]] std::string_view text,
 }
 
 void hasFile(std::string filename, char command) {
-    std::ifstream file(filename);
+    [[maybe_unused]] std::ifstream file(filename);
+
     if (!file.is_open())
         std::exit(1);
 
@@ -37,6 +38,7 @@ void hasFile(std::string filename, char command) {
 
     std::string line{};
     char character{};
+    std::string word{};
 
     switch (command) {
     case 'c':
@@ -50,8 +52,14 @@ void hasFile(std::string filename, char command) {
         }
         break;
     case 'w':
+        while (file >> word) {
+            ++tracker;
+        };
         break;
     case 'm':
+        while (file.get(character)) {
+            ++tracker;
+        }
         break;
     default:
         break;
