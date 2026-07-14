@@ -13,19 +13,21 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
     // check if user passed in file or not in case they want to check word count
     // with external tools like cat before passing in text to this tool
-    checkForWord(argv[1], ".txt") ? hasFile(argv[2], argv[1][1])
-                                  : hasNoFile(argv[1][1]);
+    if (argc == 3 && checkForWord(argv[2], "txt")) {
+        hasFile(argv[2], argv[1][1]);
+    } else {
+        hasNoFile(argv[1][1]);
+    }
 
     return 0;
 }
 
-bool checkForWord([[maybe_unused]] std::string_view text,
-                  [[maybe_unused]] std::string_view subtext) {
+bool checkForWord(std::string_view text, std::string_view subtext) {
 
-    // for (int i = 0, len = text.size(); i < len; i++) {
+    if (text.contains(subtext))
+        return true;
 
-    // }
-    return true;
+    return false;
 }
 
 void hasFile(std::string filename, char command) {
@@ -84,14 +86,14 @@ void hasFile(std::string filename, char command) {
 }
 
 void hasNoFile(char command) {
-    long tracker;
+    long tracker{};
 
-    std::string line;
-    std::string word;
+    std::string line{};
+    std::string word{};
 
     switch (command) {
     case 'c':
-        while (std::getchar()) {
+        while (std::getchar() != EOF) {
             ++tracker;
         }
         break;
@@ -106,7 +108,7 @@ void hasNoFile(char command) {
         };
         break;
     case 'm':
-        while (std::getchar()) {
+        while (std::getchar() != EOF) {
             ++tracker;
         }
         break;
@@ -128,4 +130,6 @@ void hasNoFile(char command) {
         std::exit(0);
         break;
     }
+
+    std::cout << tracker << "\n";
 }
